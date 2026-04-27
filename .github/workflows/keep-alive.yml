@@ -23,12 +23,12 @@ jobs:
 
           echo "HTTP Status: $RESPONSE"
 
-          if [ "$RESPONSE" -ge 200 ] && [ "$RESPONSE" -lt 300 ]; then
+          if [[ "$RESPONSE" == "200" || "$RESPONSE" == "400" || "$RESPONSE" == "404" ]]; then
             echo "✅ Supabase is alive and responding!"
-          elif [ "$RESPONSE" -eq 200 ] || [ "$RESPONSE" -eq 400 ] || [ "$RESPONSE" -eq 404 ]; then
-            echo "✅ Supabase responded (project is active)."
+          elif [[ "$RESPONSE" -ge 200 && "$RESPONSE" -lt 500 ]]; then
+            echo "✅ Supabase responded with status $RESPONSE — project is active."
           else
-            echo "⚠️ Unexpected response code: $RESPONSE"
+            echo "❌ Unexpected response: $RESPONSE — project may be paused."
             exit 1
           fi
 
