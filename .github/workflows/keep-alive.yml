@@ -10,15 +10,14 @@ on:
     paths:
       - '.github/workflows/keep-alive.yml'
 
-env:
-  SUPABASE_URL: "https://jmwshthfzhztfmfkossk.supabase.co"
-  SUPABASE_ANON_KEY: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imptd3NodGhmemh6dGZtZmtvc3NrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjY2Nzc3MzcsImV4cCI6MjA4MjI1MzczN30.xSYt2oU9BWQAOjo0C4IwngIy4agJUOVGSGkbQCxdNqw"
-
 jobs:
   ping:
     runs-on: ubuntu-latest
     steps:
       - name: Ping Supabase
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
         run: |
           curl "${SUPABASE_URL}/rest/v1/calculator_responses?select=count" \
             -H "apikey: ${SUPABASE_ANON_KEY}" \
