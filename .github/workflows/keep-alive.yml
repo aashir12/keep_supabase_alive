@@ -15,9 +15,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Ping Supabase
+        env:
+          ANON_KEY: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imptd3NodGhmemh6dGZtZmtvc3NrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjY2Nzc3MzcsImV4cCI6MjA4MjI1MzczN30.xSYt2oU9BWQAOjo0C4IwngIy4agJUOVGSGkbQCxdNqw
         run: |
           curl "https://jmwshthfzhztfmfkossk.supabase.co/rest/v1/" \
-            -H "apikey: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imptd3NodGhmemh6dGZtZmtvc3NrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjY2Nzc3MzcsImV4cCI6MjA4MjI1MzczN30.xSYt2oU9BWQAOjo0C4IwngIy4agJUOVGSGkbQCxdNqw" \
-            -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imptd3NodGhmemh6dGZtZmtvc3NrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjY2Nzc3MzcsImV4cCI6MjA4MjI1MzczN30.xSYt2oU9BWQAOjo0C4IwngIy4agJUOVGSGkbQCxdNqw" \
+            -H "apikey: $ANON_KEY" \
+            -H "Authorization: Bearer $ANON_KEY" \
             --fail --silent --show-error
           echo "✅ Supabase pinged successfully!"
