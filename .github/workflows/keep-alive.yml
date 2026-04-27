@@ -1,36 +1,22 @@
-name: Supabase Keep-Alive
+name: Keep Supabase Alive
 
 on:
   schedule:
-    # Runs every 3 days at 08:00 UTC — well within the 7-day inactivity window
-    - cron: '0 8 */3 * *'
-  workflow_dispatch: # Allow manual trigger from GitHub UI
+    - cron: '0 0 */3 * *'
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - '.github/workflows/keep-alive.yml'
 
 jobs:
-  ping-supabase:
-    name: Ping Supabase to prevent auto-pause
+  ping:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Ping Supabase REST API
+      - name: Ping Supabase
         run: |
-          echo "Pinging Supabase project to keep it alive..."
-
-          RESPONSE=$(curl -s -o /dev/null -w "%{http_code}" \
-            "${{ secrets.SUPABASE_URL }}/rest/v1/" \
-            -H "apikey: ${{ secrets.SUPABASE_ANON_KEY }}" \
-            -H "Authorization: Bearer ${{ secrets.SUPABASE_ANON_KEY }}")
-
-          echo "HTTP Status: $RESPONSE"
-
-          if [[ "$RESPONSE" == "200" || "$RESPONSE" == "400" || "$RESPONSE" == "404" ]]; then
-            echo "✅ Supabase is alive and responding!"
-          elif [[ "$RESPONSE" -ge 200 && "$RESPONSE" -lt 500 ]]; then
-            echo "✅ Supabase responded with status $RESPONSE — project is active."
-          else
-            echo "❌ Unexpected response: $RESPONSE — project may be paused."
-            exit 1
-          fi
-
-      - name: Log timestamp
-        run: echo "Keep-alive ping sent at $(date -u)"
+          curl "https://jmwshthfzhztfmfkossk.supabase.co/rest/v1/" \
+            -H "apikey: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imptd3NodGhmemh6dGZtZmtvc3NrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjY2Nzc3MzcsImV4cCI6MjA4MjI1MzczN30.xSYt2oU9BWQAOjo0C4IwngIy4agJUOVGSGkbQCxdNqw" \
+            --fail --silent --show-error
+          echo "✅ Supabase pinged successfully!"
