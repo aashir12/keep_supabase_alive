@@ -17,7 +17,7 @@ jobs:
           SUPABASE_URL: ${{ secrets.SUPABASE_URL_IMMOTOOLS }}
           SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY_IMMOTOOLS }}
         run: |
-          curl "${SUPABASE_URL}/rest/v1/profiles?select=count" \
+          curl "${SUPABASE_URL}/rest/v1/user_subs?select=count" \
             -H "apikey: ${SUPABASE_ANON_KEY}" \
             -H "Authorization: Bearer ${SUPABASE_ANON_KEY}" \
             --fail --silent --show-error
