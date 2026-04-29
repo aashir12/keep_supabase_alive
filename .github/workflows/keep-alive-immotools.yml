@@ -1,4 +1,4 @@
-name: Keep Supabase Alive
+name: Keep Supabase Alive IMMOTOOLS
 on:
   schedule:
     - cron: '0 0 */3 * *'
